@@ -12,22 +12,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Adventrue.cpp" />
-    <ClCompile Include="Dungeon.cpp" />
-    <ClCompile Include="Forest.cpp" />
+    <ClCompile Include="Ccoin.cpp" />
+    <ClCompile Include="Cmonster.cpp" />
     <ClCompile Include="Help.cpp" />
-    <ClCompile Include="Infernal.cpp" />
-    <ClCompile Include="Maze.cpp" />
+    <ClCompile Include="Cnormal.cpp" />
+    <ClCompile Include="GameMaze.cpp" />
     <ClCompile Include="Other.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EasyXPng.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Maze.h" />
+    <ClInclude Include="GameMaze.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4F92F5AA-F35F-4C44-9581-8335ECACECD7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LostRoom</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <ProjectName>MazeAdventure</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -70,6 +72,10 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <ForceFileOutput>Enabled</ForceFileOutput>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

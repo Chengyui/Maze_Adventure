@@ -12,8 +12,11 @@ extern MOUSEMSG m_msg;	// 鼠标消息
 // 绘制背景
 void COther::putAll()
 {
-	setbkcolor(RGB(50, 50, 50));
-	cleardevice();
+	IMAGE BK;
+	loadimage(&BK, L"begin_background.png");
+	//setbkcolor(RGB(50, 50, 50));
+	putimage(0, 0, 700, 480, &BK, 0, 0);
+	//cleardevice();
 }
 
 // 放置按钮
@@ -21,8 +24,8 @@ bool COther::button(int a, int b, wchar_t str[])
 {
 	static int x, y;																// 鼠标坐标
 
-	setfillcolor(RGB(100, 100, 100));
-	solidrectangle(a - 25, b, a + 19 * wcslen(str) + 25, b + 30);					// 绘制边框
+	setfillcolor(RGB(0, 0, 0));
+	solidrectangle(a - 10, b, a + 19 * wcslen(str) +10, b + 30);					// 绘制边框
 
 	x = m_msg.x;
 	y = m_msg.y;																	// 获取坐标
@@ -30,7 +33,7 @@ bool COther::button(int a, int b, wchar_t str[])
 	if (x > a - 25 && (size_t)x < a + 19 * wcslen(str) + 25 && y > b && y < b + 30) // 获得焦点显示
 	{
 		setfillcolor(RGB(150, 150, 150));
-		solidrectangle(a - 25, b, a + 19 * wcslen(str) + 25, b + 30);
+		solidrectangle(a - 10, b, a + 19 * wcslen(str) + 10, b + 30);
 
 		if (m_msg.uMsg == WM_LBUTTONUP)
 		{
@@ -42,12 +45,12 @@ bool COther::button(int a, int b, wchar_t str[])
 
 	LOGFONT f;
 	gettextstyle(&f);
-	f.lfHeight = 25;
-	wcscpy_s(f.lfFaceName, L"微软雅黑 Light");
+	f.lfHeight = 20;
+	wcscpy_s(f.lfFaceName, L"宋体");
 	f.lfQuality = ANTIALIASED_QUALITY;
 	settextstyle(&f);
 	settextcolor(WHITE);
-	outtextxy(a, b + 3, str);	// 输出文字
+	outtextxy(a, b+3 , str);	// 输出文字
 
 	return 0;
 }
@@ -71,7 +74,7 @@ int COther::putMessageBox(int x, int y, int wight, int hight, wchar_t title[], w
 		LOGFONT f;
 		gettextstyle(&f);
 		f.lfHeight = 30;
-		wcscpy_s(f.lfFaceName, L"黑体");
+		wcscpy_s(f.lfFaceName, L"宋体");
 		f.lfQuality = ANTIALIASED_QUALITY;
 		settextstyle(&f);
 		outtextxy(x + 20, y + 10, title);

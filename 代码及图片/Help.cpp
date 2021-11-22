@@ -40,18 +40,16 @@ void CHelp::put()
 		LOGFONT f;
 		gettextstyle(&f);
 		f.lfHeight = 25;
-		wcscpy_s(f.lfFaceName, L"微软雅黑 Light");
+		wcscpy_s(f.lfFaceName, L"宋体 Light");
 		f.lfQuality = ANTIALIASED_QUALITY;
 		settextstyle(&f);			
 		settextcolor(WHITE);
 		outtextxy(140, 130, L"游戏开始选择系列关卡");
 		outtextxy(140, 170, L"有三种系列：");
-		outtextxy(140, 200, L"森林（简单，基于 Prim 算法）");
-		outtextxy(140, 230, L"地牢（中等，基于图论 DFS 算法）");
-		outtextxy(140, 260, L"地狱（困难，基于暴力 DFS 算法）");
-		outtextxy(140, 290, L"选择系列后，进入游戏");
-		outtextxy(140, 320, L"WSAD 上下左右，游戏中有计时器");	// 信息输出
-
+		outtextxy(140, 200, L"普通模式：正计时");
+		outtextxy(140, 230, L"金币模式：倒计时吃金币并到终点");
+		outtextxy(140, 260, L"怪物模式：躲避怪物并到终点");
+	
 		if (but->button(280, 400, L"回到主页"))					// 回到主页按钮
 			break;
 

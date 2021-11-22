@@ -37,20 +37,22 @@ void CAdventrue::game()
 
 		but->putAll();		// 绘制背景
 
-		for (int i = 0; i <= 3; i++)
+		/*for (int i = 0; i <= 3; i++)
 		{
 			settextcolor(RGB(100, 100, 100));
-			settextstyle(70, 0, L"微软雅黑");
+			settextstyle(70, 0, L"宋体");
 			outtextxy(235 + i, 85 + i, L"迷　宫");
-		}
-		settextcolor(WHITE);
-		settextstyle(70, 0, L"微软雅黑");
-		outtextxy(235 + 3, 85 + 3, L"迷　宫");		// 标题输出
+		}*/
+		//settextcolor(WHITE);
+		settextcolor(RGB(250, 250, 250));
+		settextstyle(50, 0, L"宋体");
+		outtextxy(170 + 3, 85 + 3, L"MAZE ADVENTURE");		// 标题输出
 
-		if (but->button(280, 200, L"　森林　"))		// 森林系列按钮
+		if (but->button(60, 260, L"　普通模式　"))		// 普通模式按钮
 		{
-			Adv = new CForest();
-			Adv->all_pass = rand() % 50 + 25;
+			Adv = new Cnormal();
+			Adv->all_pass = 1; // 暂时将每个模式设置为只有一关
+			Adv->time_limit = 600;
 			Adv->pass = 1;
 			Adv->n = 15;
 			Adv->m = 15;
@@ -60,45 +62,61 @@ void CAdventrue::game()
 			Adv = NULL;
 		}
 
-		if (but->button(280, 260, L"　地牢　"))		// 地牢系列按钮
+		if (but->button(220, 260, L"　极限模式　"))		// 极限模式按钮
 		{
-			Adv = new CDungeon();
+			Adv = new Ccoin();
 			Adv->all_pass = 1;
+			Adv->time_limit = 60;
 			Adv->pass = 1;
-			Adv->n = 25;
-			Adv->m = 25;
+			Adv->n = 15;
+			Adv->m = 15;
 			times = 0;
 			Adv->game();
 			delete Adv;
 			Adv = NULL;
 		}
 
-		if (but->button(280, 320, L"　地狱　"))		// 地狱系列按钮
+		if (but->button(380, 260, L"　金币模式　"))		// 金币模式按钮
 		{
-			Adv = new CInfernal();
-			Adv->all_pass = rand() % 50 + 25;
+			Adv = new Ccoin();
+			Adv->all_pass = 2;
+			Adv->time_limit = 60;
 			Adv->pass = 1;
-			Adv->n = 45;
-			Adv->m = 45;
+			Adv->n = 15;
+			Adv->m = 15;
 			times = 0;
 			Adv->game();
 			delete Adv;
 			Adv = NULL;
 		}
 
-		if (but->button(280, 380, L"　帮助　"))		// 帮助信息按钮
-			help->put();
+		if (but->button(540, 260, L"　怪物模式　"))		// 怪物模式按钮
+		{
+			Adv = new Cmonster();
+			Adv->all_pass = 1;
+			Adv->time_limit = 60;
+			Adv->pass = 1;
+			Adv->n = 15;
+			Adv->m = 15;
+			Adv->mon_x = 14;
+			Adv->mon_y = 2;
+			times = 0;
+			Adv->game();
+			delete Adv;
+			Adv = NULL;
+		}
+
+
 
 		LOGFONT f;
 		gettextstyle(&f);
 		f.lfWidth = 10;
-		wcscpy_s(f.lfFaceName, L"微软雅黑 Light");
+		wcscpy_s(f.lfFaceName, L"宋体 Light");
 		f.lfQuality = ANTIALIASED_QUALITY;
 		settextstyle(&f);
 		settextcolor(WHITE);
 
-		outtextxy(340, 153, L"By Chengjinguo");
-		outtextxy(249, 440, L"按 Esc 退出游戏");	// 输出其他
+		outtextxy(250, 153, L"Powered By Chengjinguo");
 
 		FlushBatchDraw();
 		Sleep(10);
@@ -119,7 +137,7 @@ bool CAdventrue::winPut()
 
 	wchar_t title[50];
 
-	swprintf_s(title, L"使用时间 %lld s\0", times);
+	swprintf_s(title, L"成功通关！！使用时间 %lld s\0", times);
 
 	while (1)
 	{
@@ -130,15 +148,8 @@ bool CAdventrue::winPut()
 			m_msg = GetMouseMsg();	// 鼠标消息获取
 
 		but->putAll();				// 绘制背景
-
-		for (int i = 0; i <= 3; i++)
-		{
-			settextcolor(RGB(100, 100, 100));
-			settextstyle(52, 0, L"黑体");
-			outtextxy(140 + i, 90 + i, title);
-		}
 		settextcolor(WHITE);
-		settextstyle(52, 0, L"黑体");
+		settextstyle(30, 0, L"黑体");
 		outtextxy(140 + 3, 90 + 3, title);		// 标题输出
 
 		if (but->button(273, 215, L" 下一关"))	// 下一关按钮
@@ -166,7 +177,54 @@ bool CAdventrue::winPut()
 	but = NULL;
 	return 0;
 }
+bool CAdventrue::failPut(int flag){
+	COther* but = new COther();
 
+	wchar_t title[50];
+	if (flag)
+		swprintf_s(title, L"超时，游戏失败，使用时间 %lld s\0", times);
+	else 
+		swprintf_s(title, L"金币数量不足，游戏失败，使用时间 %lld s\0", times);
+
+	while (1)
+	{
+		if (_kbhit())				// 键盘消息获取
+			ch = _getch();
+
+		while (MouseHit())
+			m_msg = GetMouseMsg();	// 鼠标消息获取
+
+		but->putAll();				// 绘制背景
+
+		settextcolor(WHITE);
+		settextstyle(30, 0, L"黑体");
+		outtextxy(100 + 3, 90 + 3, title);		// 标题输出
+
+		if (but->button(273, 215, L" 下一关"))	// 下一关按钮
+			break;
+
+		if (but->button(273, 300, L"回到主页"))	// 回到主页按钮
+		{
+			wchar_t* text[10];
+			text[0] = L"你确定你要回到主页吗？\n";
+			but->button(273, 300, L"回到主页");
+			if (but->putMessageBox(120, 165, 400, 150, L"回到主页", text, 1, MY_YESNO))		// 回到主页对话框
+			{
+				delete but;
+				but = NULL;
+				return 1;
+			}
+		}
+
+		FlushBatchDraw();
+		Sleep(5);
+	}
+
+	times = 0;
+	delete but;
+	but = NULL;
+	return 0;
+}
 // 通过全关卡界面
 void CAdventrue::gameOver()
 {
@@ -212,6 +270,7 @@ void CAdventrue::gameOver()
 	but = NULL;
 }
 
+
 // 人物移动处理
 void CAdventrue::man_Move()
 {
@@ -220,6 +279,7 @@ void CAdventrue::man_Move()
 		room[x - 1][y] = YOU;
 		room[x][y] = ROAD;
 		x--;
+		status = 0;
 		ch = '#';									// 赋为其他值，防止人物持续移动
 	}
 	else if (ch == 's' && room[x + 1][y] != WALL)	// 下移处理
@@ -227,6 +287,7 @@ void CAdventrue::man_Move()
 		room[x + 1][y] = YOU;
 		room[x][y] = ROAD;
 		x++;
+		status = 1;
 		ch = '#';
 	}
 	else if (ch == 'a' && room[x][y - 1] != WALL)	// 左移处理
@@ -234,6 +295,7 @@ void CAdventrue::man_Move()
 		room[x][y - 1] = YOU;
 		room[x][y] = ROAD;
 		y--;
+		status = 2;
 		ch = '#';
 	}
 	else if (ch == 'd' && room[x][y + 1] != WALL)	// 右移处理
@@ -241,6 +303,7 @@ void CAdventrue::man_Move()
 		room[x][y + 1] = YOU;
 		room[x][y] = ROAD;
 		y++;
+		status = 3;
 		ch = '#';
 	}
 }
