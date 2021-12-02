@@ -4,6 +4,7 @@
 extern char ch;						// 键盘消息
 extern long long times, start_time;	// 计时器
 extern MOUSEMSG m_msg;				// 鼠标消息
+extern long long tick;
 
 //Cmonster 函数实现
 
@@ -48,14 +49,11 @@ void Cmonster::game()
 			//setfillcolor(BLACK);
 			//solidrectangle(16, 17, 465, 465);		// 绘制游戏区
 
-			if (times > start_time + 2){
-				start_time = times;
-				monster_Move();
-			}
+		
 
 			putRoom();								// 绘制界面
 			putMan();								// 绘制人物
-
+		
 
 
 			
@@ -103,6 +101,7 @@ void Cmonster::game()
 			}
 
 			FlushBatchDraw();
+			tick++;
 			Sleep(5);
 		}
 		if (times >= time_limit){
@@ -182,7 +181,7 @@ void Cmonster::deepFS()
 	}
 	room[2][2] = YOU;
 	room[n - 1][m] = END;	// 将图论 DFS 结果显示到迷宫中
-	room[2][3] = MONSTER;
+	//room[13][2] = MONSTER;
 
 }
 
@@ -214,7 +213,7 @@ void Cmonster::putRoom()
 	loadimage(&img_road, L"road.png");
 	loadimage(&you, L"player1.png");
 	loadimage(&end, L"endpoint.png");
-	loadimage(&mon, L"monster.png");
+	loadimage(&mon, L"mon&road.png");
 
 	for (int i = x - 4; i <= x + 4; i++)	// 绘制迷宫
 	{
@@ -247,13 +246,20 @@ void Cmonster::putRoom()
 				
 
 			}
+			/*else if (room[i][j] == MONSTER){
+				putimagePng((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, &mon);
+				mon_x = i;
+				mon_y = j;
+			}*/
 		}
 	}
 
 	if (x + 4 >= n - 1 && y + 4 >= m){
 		putimagePng((m - 1 - y) * 50 + 266, (n - 1 - 1 - x) * 50 + 266, &end);
 	}
-	if ((x+4>=mon_x&&y-4>=mon_y))
+	/*if ((x + 4 >= mon_x&&y - 4 <= mon_y) || (x + 4 >= mon_x&&y + 4 >= mon_y) || (x -4 >= mon_x&&y + 4 >= mon_y) || (x + 4 >= mon_x&&y - 4 <= mon_y)){
+		putimagePng((mon_y - 1 - y) * 50 + 266, (mon_x - 1 - x) * 50 + 266, &mon);
+	}*/
 }
 
 void Cmonster::putMan(){
@@ -269,13 +275,11 @@ void Cmonster::putMan(){
 	else if (status == 3)
 		loadimage(&you, L"player3.png");
 	putimagePng(216, 216, &you); // 绘制人物
-	
-
-
-
-}
-void Cmonster::monster_Move(){
 	IMAGE mon;
-	loadimage(&mon, L"monster.png");
-	return;
+	loadimage(&mon, L"mon&road.png");
+	if ((x + 4 >= mon_x&&y - 4 <= mon_y) || (x + 4 >= mon_x&&y + 4 >= mon_y) || (x - 4 >= mon_x&&y + 4 >= mon_y) || (x + 4 >= mon_x&&y - 4 <= mon_y))
+		putimagePng((mon_y - 1 - y) * 50 + 266, (mon_x - 1 - x) * 50 + 266, &mon);
+
+
+
 }

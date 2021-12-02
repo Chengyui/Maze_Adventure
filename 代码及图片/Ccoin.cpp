@@ -27,7 +27,7 @@ void Ccoin::game()
 		y = 2;										// 重置坐标
 
 		start_time = int(time(NULL));				// 设置初始时间 0 
-		long long  pre_time = start_time;		    //记录时间，添加怪物移动
+				   
 		while (1)
 		{
 			times = int(time(NULL)) - start_time;	// 累加时间

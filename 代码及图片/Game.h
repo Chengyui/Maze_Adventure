@@ -20,7 +20,7 @@ public:
 };
 
 // 冒险模式类
-class CAdventrue
+class CAdventure
 {
 public:
 	int pass, all_pass;												// 关卡和总关卡
@@ -31,8 +31,8 @@ public:
 	int time_limit = 60;
 	int status = 1;		   //代表人物的运动方向 0:上，1:下，2：左，3：右
 	
-	CAdventrue() {}
-	~CAdventrue() {}
+	CAdventure() {}
+	~CAdventure() {}
 	
 	virtual void game();									// 各模式（系列）核心
 
@@ -41,6 +41,7 @@ public:
 	void gameOver();										// 通过全关卡界面
 	void man_Move();										// 人物移动处理
 	void clear();											// 清空数据处理
+	void monster_Move();
 
 	int search(int x, int y);								// DFS 搜索生成迷宫核心
 	int dfs(int step);										// 图论 DFS 搜索生成迷宫核心
@@ -48,7 +49,7 @@ public:
 };
 
 // 普通模式
-class Cnormal : public CAdventrue
+class Cnormal : public CAdventure
 {
 public:
 	Cnormal() {}
@@ -64,7 +65,7 @@ private:
 };
 
 //金币模式
-class Ccoin : public CAdventrue
+class Ccoin : public CAdventure
 {
 public:
 	int coins = 0;
@@ -86,7 +87,7 @@ private:
 };
 
 //极限模式
-class Cextreme : public CAdventrue
+class Cextreme : public CAdventure
 {
 public:
 	Cextreme() {}
@@ -101,7 +102,7 @@ private:
 };
 
 //怪物模式
-class Cmonster :public CAdventrue{
+class Cmonster :public CAdventure{
 
 public:
 	Cmonster(){}
@@ -113,8 +114,7 @@ private:
 	void deepFS();	//随机生成迷宫
 	void putRoom(); //绘制界面
 	void putMan();  //绘制人物
-	void monster_Move();//怪物移动及绘制
-
+	
 };
 // 帮助信息类
 class CHelp

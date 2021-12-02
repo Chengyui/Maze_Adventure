@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Adventrue.cpp" />
+    <ClCompile Include="Adventure.cpp" />
     <ClCompile Include="Ccoin.cpp" />
     <ClCompile Include="Cmonster.cpp" />
     <ClCompile Include="Help.cpp" />

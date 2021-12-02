@@ -12,7 +12,7 @@ srand((unsigned int)time(NULL));	// 随机种子
 
 initgraph(700, 480);				// 创建图形化窗口
 
-CAdventrue* bed = new CAdventrue();
+CAdventure* bed = new CAdventure();
 bed->game();						// 开始游戏
 
 delete bed;
