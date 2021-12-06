@@ -1,18 +1,17 @@
-// Infernal.cpp : 冒险模式-地狱系列类实现文件
-
 #include "Game.h"		// 游戏头文件
-
 // 全局变量
 
 extern char ch;						// 键盘消息
 extern long long times, start_time;	// 计时器
 extern MOUSEMSG m_msg;				// 鼠标消息
+extern long long tick;
 
-// Cnormal 函数实现
+//Cnormal 函数实现
 
-// 冒险模式-地狱系列类
+//Cnormal核心
 void Cnormal::game()
 {
+
 	COther* but = new COther();
 
 	while (1)
@@ -20,12 +19,12 @@ void Cnormal::game()
 		clear();									// 清空数据
 
 		deepFS();									// 生成迷宫
-		
+
 		x = 2;
 		y = 2;										// 重置坐标
 
 		start_time = int(time(NULL));				// 设置初始时间 0 
-		
+		long long  pre_time = start_time;		    //记录时间，添加怪物移动
 		while (1)
 		{
 			times = int(time(NULL)) - start_time;	// 累加时间
@@ -40,23 +39,46 @@ void Cnormal::game()
 
 			man_Move();								// 人物移动处理
 
-			if (x == to_x && y == to_y)				// 到达终点判断
+			if (x == 14 && y == 15)				// 到达终点判断
 				break;
 
 			but->putAll();							// 绘制背景
+			IMAGE img_bk;
+			loadimage(&img_bk, L"background.png");
+			putimage(16, 17, 465 - 16, 465 - 17, &img_bk, 0, 0);
+			//setfillcolor(BLACK);
+			//solidrectangle(16, 17, 465, 465);		// 绘制游戏区
 
-			setfillcolor(RGB(50, 0, 0));
-			solidrectangle(16, 17, 465, 465);		// 绘制游戏区
+
 
 			putRoom();								// 绘制界面
+			putMan();								// 绘制人物
 
-			if (but->button(513, 400, L"回到主页"))											// 回到主页按钮
+
+
+
+
+			if (times >= time_limit){
+				/*wchar_t * time_out[10];
+				time_out[0] = L"你是否要回到主页？\n";
+				but->button(563, 400, L"回到主页");
+				but->button(563, 350, L"　暂停　");
+				if (but->putMessageBox(120, 165, 400, 150, L"计时结束，游戏失败", time_out, 1, MY_OK))	// 回到主页对话框
+				{
+				delete but;
+				but = NULL;
+				return;
+				}*/
+				break;
+			}
+
+			if (but->button(563, 400, L"回到主页"))											// 回到主页按钮
 			{
 				long long t = times;
 				wchar_t* text[10];
 				text[0] = L"你是否要回到主页？\n";
-				but->button(513, 400, L"回到主页");
-				but->button(513, 350, L"　暂停　");
+				but->button(563, 400, L"回到主页");
+				but->button(563, 350, L"　暂停　");
 				if (but->putMessageBox(120, 165, 400, 150, L"回到主页", text, 1, MY_YESNO))	// 回到主页对话框
 				{
 					delete but;
@@ -67,7 +89,7 @@ void Cnormal::game()
 				times = t;
 			}
 
-			if (but->button(513, 350, L"　暂停　"))							// 暂停按钮
+			if (but->button(563, 350, L"　暂停　"))							// 暂停按钮
 			{
 				long long t = times;
 				wchar_t* text[10];
@@ -79,15 +101,21 @@ void Cnormal::game()
 			}
 
 			FlushBatchDraw();
+			tick++;
 			Sleep(5);
 		}
+		if (times >= time_limit){
+			failPut(1);
+			break;
+		}
 
-		if (winPut())		// 通过一关卡界面
+
+		if (winPut())				// 通过一关卡界面
 			break;
 
-		if (pass == all_pass)
+		if (pass == all_pass)		// 通过全关卡界面
 		{
-			gameOver();		// 通过全关卡界面
+			gameOver();
 			break;
 		}
 		pass++;
@@ -103,8 +131,6 @@ void Cnormal::game()
 	delete but;
 	but = NULL;
 }
-
-// 暴力 DFS 随机生成迷宫
 void Cnormal::deepFS()
 {
 	tot = 0;						// 节点数清空
@@ -155,16 +181,17 @@ void Cnormal::deepFS()
 	}
 	room[2][2] = YOU;
 	room[n - 1][m] = END;	// 将图论 DFS 结果显示到迷宫中
+	//room[13][2] = MONSTER;
+
 }
 
-// 绘制界面
 void Cnormal::putRoom()
 {
-	wchar_t tim[25], pas1[50], pas2[50];	// 计时、当前关卡和总关卡
+	wchar_t tim[25], pas1[50], pas2[50], coin_text[25];	// 计时、当前关卡和总关卡
 
-	swprintf_s(pas1, L"第 %d 关\0", pass);
-	swprintf_s(pas2, L"共 %d 关\0", all_pass);
-	swprintf_s(tim, L"使用时间 %lld s\0", times);
+	//swprintf_s(pas1, L"第 %d 关\0", pass);
+
+	swprintf_s(tim, L"剩余时间 %lld s\0", time_limit - times); // 改为倒计时
 	LOGFONT f;
 	gettextstyle(&f);
 	f.lfHeight = 20;
@@ -172,9 +199,21 @@ void Cnormal::putRoom()
 	f.lfQuality = ANTIALIASED_QUALITY;
 	settextstyle(&f);
 	settextcolor(WHITE);
-	outtextxy(480, 25, pas1);
-	outtextxy(480, 55, pas2);
+	//outtextxy(480, 25, pas1);
+
 	outtextxy(480, 85, tim);				// 输出文字
+	IMAGE img_wall;	//准备图片
+	IMAGE img_road;
+	IMAGE you;
+	IMAGE end;
+	IMAGE road_coin;
+	IMAGE mon;
+	loadimage(&road_coin, L"road&coin.png");
+	loadimage(&img_wall, L"wall.png");	//加载图片  L"背景.jpg"是图片的相对路径,也可以使用绝对路径
+	loadimage(&img_road, L"road.png");
+	loadimage(&you, L"player1.png");
+	loadimage(&end, L"endpoint.png");
+	loadimage(&mon, L"mon&road.png");
 
 	for (int i = x - 4; i <= x + 4; i++)	// 绘制迷宫
 	{
@@ -185,30 +224,57 @@ void Cnormal::putRoom()
 			}
 			if (room[i][j] == WALL)
 			{
-				setfillcolor(RGB(100, 0, 0));
-				solidrectangle((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, (j - y) * 50 + 265, (i - x) * 50 + 265);
+				putimagePng((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, &img_wall);
 			}
-			else if (room[i][j] == ROAD)
+			else if (room[i][j] == ROAD || YOU)
 			{
-				setfillcolor(RGB(200, 0, 0));
-				solidrectangle((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, (j - y) * 50 + 265, (i - x) * 50 + 265);
+
+				putimagePng((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, &img_road);
+
 			}
 			else if (room[i][j] == END)
 			{
-				setfillcolor(BLUE);
-				solidrectangle((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, (j - y) * 50 + 265, (i - x) * 50 + 265);
+				putimagePng((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, &end);
 				to_x = i;
 				to_y = j;
 			}
 			else if (room[i][j] == YOU)
 			{
-				setfillcolor(RGB(200, 0, 0));
-				solidrectangle((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, (j - y) * 50 + 265, (i - x) * 50 + 265);
-				setfillcolor(YELLOW);
-				solidellipse((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, (j - y) * 50 + 265, (i - x) * 50 + 265);
+				putimagePng((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, &you);
 				x = i;
 				y = j;
+
+
 			}
+			/*else if (room[i][j] == MONSTER){
+			putimagePng((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, &mon);
+			mon_x = i;
+			mon_y = j;
+			}*/
 		}
 	}
+
+	if (x + 4 >= n - 1 && y + 4 >= m){
+		putimagePng((m - 1 - y) * 50 + 266, (n - 1 - 1 - x) * 50 + 266, &end);
+	}
+	/*if ((x + 4 >= mon_x&&y - 4 <= mon_y) || (x + 4 >= mon_x&&y + 4 >= mon_y) || (x -4 >= mon_x&&y + 4 >= mon_y) || (x + 4 >= mon_x&&y - 4 <= mon_y)){
+	putimagePng((mon_y - 1 - y) * 50 + 266, (mon_x - 1 - x) * 50 + 266, &mon);
+	}*/
+}
+
+void Cnormal::putMan(){
+
+	IMAGE you;
+
+	if (status == 0)
+		loadimage(&you, L"player0.png");
+	else if (status == 1)
+		loadimage(&you, L"player1.png");
+	else if (status == 2)
+		loadimage(&you, L"player2.png");
+	else if (status == 3)
+		loadimage(&you, L"player3.png");
+	putimagePng(216, 216, &you); // 绘制人物
+	
+
 }

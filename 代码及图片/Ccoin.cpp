@@ -111,8 +111,8 @@ void Ccoin::game()
 			failPut(1);
 			break;
 		}
-		if (coins_limit > coins){
-			failPut(0);
+		if (coins>10){
+			failPut(2);
 			break;
 		}
 	
@@ -151,7 +151,11 @@ void Ccoin::deepFS()
 			if (i % 2 == 0 && j % 2 == 0)
 			{
 				room[i][j] = ROAD;
-				if (rand() % 3 == 1) coin[i][j] = 1;
+				if (rand() % 3 == 1) 
+				{ 
+					coin[i][j] = 1;
+					coins++;
+				}
 				flag[0][++tot] = tot;
 				flag[1][tot] = i;
 				flag[2][tot] = j;
@@ -200,8 +204,8 @@ void Ccoin::putRoom()
 	wchar_t tim[25], pas1[50], pas2[50],coin_text[25];	// 计时、当前关卡和总关卡
 
 	//swprintf_s(pas1, L"第 %d 关\0", pass);
-	swprintf_s(coin_text, L"已得到 %d 枚金币\0", coins);
-	swprintf_s(tim, L"使用时间 %lld s\0", time_limit-times); // 改为倒计时
+	swprintf_s(coin_text, L"剩余 %d 枚金币\0", coins);
+	swprintf_s(tim, L"剩余时间 %lld s\0", time_limit-times); // 改为倒计时
 	LOGFONT f;
 	gettextstyle(&f);
 	f.lfHeight = 20;
@@ -281,7 +285,7 @@ void Ccoin::putMan(){
 		loadimage(&you, L"player3.png");
 	putimagePng(216, 216, &you); // 绘制人物
 	if (coin[x][y]){
-		coins++;
+		coins--;
 		coin[x][y] = 0;
 	}
 

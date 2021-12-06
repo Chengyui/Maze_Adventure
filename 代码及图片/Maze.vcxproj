@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="Adventure.cpp" />
     <ClCompile Include="Ccoin.cpp" />
+    <ClCompile Include="Cextreme.cpp" />
     <ClCompile Include="Cmonster.cpp" />
     <ClCompile Include="Help.cpp" />
     <ClCompile Include="Cnormal.cpp" />

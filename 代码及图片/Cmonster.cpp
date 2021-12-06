@@ -13,7 +13,7 @@ void Cmonster::game()
 {
 
 	COther* but = new COther();
-
+	int mon_flag = 0; //撞到怪物的退出判断
 	while (1)
 	{
 		clear();									// 清空数据
@@ -71,6 +71,11 @@ void Cmonster::game()
 				}*/
 				break;
 			}
+	
+			if (mon_x == x&&mon_y == y) {
+				mon_flag = 1;
+				break;
+			}
 
 			if (but->button(563, 400, L"回到主页"))											// 回到主页按钮
 			{
@@ -108,7 +113,10 @@ void Cmonster::game()
 			failPut(1);
 			break;
 		}
-
+		if (mon_flag){
+			failPut(2);
+			break;
+		}
 
 		if (winPut())				// 通过一关卡界面
 			break;
@@ -191,7 +199,7 @@ void Cmonster::putRoom()
 
 	//swprintf_s(pas1, L"第 %d 关\0", pass);
 	
-	swprintf_s(tim, L"使用时间 %lld s\0", time_limit - times); // 改为倒计时
+	swprintf_s(tim, L"剩余时间 %lld s\0", time_limit - times); // 改为倒计时
 	LOGFONT f;
 	gettextstyle(&f);
 	f.lfHeight = 20;
@@ -277,7 +285,7 @@ void Cmonster::putMan(){
 	putimagePng(216, 216, &you); // 绘制人物
 	IMAGE mon;
 	loadimage(&mon, L"mon&road.png");
-	if ((x + 4 >= mon_x&&y - 4 <= mon_y) || (x + 4 >= mon_x&&y + 4 >= mon_y) || (x - 4 >= mon_x&&y + 4 >= mon_y) || (x + 4 >= mon_x&&y - 4 <= mon_y))
+	if ((x + 4 >= mon_x&&y - 4 <= mon_y) || (x + 4 >= mon_x&&y + 4 >= mon_y) || (x - 4 <= mon_x&&y + 4 >= mon_y) || (x - 4 <= mon_x&&y - 4 <= mon_y))
 		putimagePng((mon_y - 1 - y) * 50 + 266, (mon_x - 1 - x) * 50 + 266, &mon);
 
 

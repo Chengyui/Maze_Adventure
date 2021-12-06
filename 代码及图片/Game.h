@@ -46,6 +46,7 @@ public:
 	int search(int x, int y);								// DFS 搜索生成迷宫核心
 	int dfs(int step);										// 图论 DFS 搜索生成迷宫核心
 	int my_line(int x_1, int y_1, int x_2, int y_2);		// 辅助函数
+	void playmusic();
 };
 
 // 普通模式

@@ -2,13 +2,14 @@
 // Maze.cpp : 程序开端文件
 
 #include "Game.h"						// 游戏头文件
-
+#pragma comment(lib,"Winmm.lib")
 
 // 程序主函数
 
 int main()
 {
 srand((unsigned int)time(NULL));	// 随机种子
+
 
 initgraph(700, 480);				// 创建图形化窗口
 
