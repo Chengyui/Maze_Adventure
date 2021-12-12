@@ -46,7 +46,7 @@ public:
 	int search(int x, int y);								// DFS 搜索生成迷宫核心
 	int dfs(int step);										// 图论 DFS 搜索生成迷宫核心
 	int my_line(int x_1, int y_1, int x_2, int y_2);		// 辅助函数
-	void playmusic();
+	void playmusic(int flag);
 };
 
 // 普通模式
@@ -106,14 +106,19 @@ private:
 class Cmonster :public CAdventure{
 
 public:
-	Cmonster(){}
-	~Cmonster(){}
 	
+	int med[150][150];//代表药品的位置。
+	int meds = 0;
+	int meds_limit = 3;
 	void game();
+	Cmonster(){
+		memset(med, 0, sizeof med);
+	}
+	~Cmonster(){}
 
 private:
 	void deepFS();	//随机生成迷宫
-	void putRoom(); //绘制界面
+	void putRoom(int flag); //绘制界面
 	void putMan();  //绘制人物
 	
 };

@@ -12,10 +12,18 @@ long long tick = 1;              //怪兽测试
 // CAdventure 类函数实现
 
 // 冒险模式核心
-void CAdventure::playmusic(){
-	mciSendString(L"close  music ", NULL, 0, NULL);//先关闭之前播放的本音乐
-	mciSendString(L"open .\\pace.mp3 alias music", NULL, 0, NULL);//bkmusic是自己定义的别名
-	mciSendString(L"play music", NULL, 0, NULL);
+void CAdventure::playmusic(int flag){
+	if (flag == 0){
+		mciSendString(L"close  pace_music ", NULL, 0, NULL);//先关闭之前播放的本音乐
+		mciSendString(L"open .\\pace.mp3 alias pace_music", NULL, 0, NULL);//bkmusic是自己定义的别名
+		mciSendString(L"play pace_music", NULL, 0, NULL);
+	}
+	else if (flag == 1){
+		mciSendString(L"close  coin_music ", NULL, 0, NULL);//先关闭之前播放的本音乐
+		mciSendString(L"open .\\coin.mp3 alias coin_music", NULL, 0, NULL);//bkmusic是自己定义的别名
+		mciSendString(L"play coin_music", NULL, 0, NULL);
+	}
+
 }
 void CAdventure::game()
 {
@@ -30,8 +38,8 @@ void CAdventure::game()
 	while (1)
 	{
 		//mciSendString(L"close  bkmusic ", NULL, 0, NULL);//先关闭之前播放的本音乐
-		mciSendString(L"open .\\easybk.mp3 alias bkmusic", NULL, 0, NULL);//bkmusic是自己定义的别名
-		mciSendString(L"play bkmusic repeat", NULL, 0, NULL);
+		//mciSendString(L"open .\\easybk.mp3 alias bkmusic", NULL, 0, NULL);//bkmusic是自己定义的别名
+		//mciSendString(L"play bkmusic repeat", NULL, 0, NULL);
 		if (_kbhit())		// 键盘消息获取
 		{
 			ch = _getch();	// 键盘消息获取
@@ -59,6 +67,9 @@ void CAdventure::game()
 
 		if (but->button(60, 260, L"　普通模式　"))		// 普通模式按钮
 		{
+			mciSendString(L"close  bkmusic ", NULL, 0, NULL);//先关闭之前播放的本音乐
+			mciSendString(L"open .\\easybk.mp3 alias bkmusic", NULL, 0, NULL);//bkmusic是自己定义的别名
+			mciSendString(L"play bkmusic repeat", NULL, 0, NULL);
 			Adv = new Cnormal();
 			Adv->all_pass = 1; // 暂时将每个模式设置为只有一关
 			Adv->time_limit = 60;
@@ -75,6 +86,9 @@ void CAdventure::game()
 
 		if (but->button(220, 260, L"　极限模式　"))		// 极限模式按钮
 		{
+			mciSendString(L"close  bkmusic ", NULL, 0, NULL);//先关闭之前播放的本音乐
+			mciSendString(L"open .\\easybk.mp3 alias bkmusic", NULL, 0, NULL);//bkmusic是自己定义的别名
+			mciSendString(L"play bkmusic repeat", NULL, 0, NULL);
 			Adv = new Cextreme();
 			Adv->all_pass = 1;
 			Adv->time_limit = 20;
@@ -91,6 +105,9 @@ void CAdventure::game()
 
 		if (but->button(380, 260, L"　金币模式　"))		// 金币模式按钮
 		{
+			mciSendString(L"close  bkmusic ", NULL, 0, NULL);//先关闭之前播放的本音乐
+			mciSendString(L"open .\\easybk.mp3 alias bkmusic", NULL, 0, NULL);//bkmusic是自己定义的别名
+			mciSendString(L"play bkmusic repeat", NULL, 0, NULL);
 			Adv = new Ccoin();
 			Adv->all_pass = 2;
 			Adv->time_limit = 60;
@@ -115,8 +132,8 @@ void CAdventure::game()
 			Adv->all_pass = 1;
 			Adv->time_limit = 60;
 			Adv->pass = 1;
-			Adv->n = 15;
-			Adv->m = 15;
+			Adv->n = 25;
+			Adv->m = 25;
 			Adv->mon_x = 13;
 			Adv->mon_y = 2;
 			times = 0;
@@ -162,7 +179,7 @@ bool CAdventure::winPut()
 	{
 		if (_kbhit())				// 键盘消息获取
 			ch = _getch();
-
+		
 		while (MouseHit())
 			m_msg = GetMouseMsg();	// 鼠标消息获取
 
@@ -197,6 +214,11 @@ bool CAdventure::winPut()
 	return 0;
 }
 bool CAdventure::failPut(int flag){
+	mciSendString(L"close  bkmusic ", NULL, 0, NULL);//先关闭之前播放的本音乐
+	mciSendString(L"close  death_music ", NULL, 0, NULL);//先关闭之前播放的本音乐
+	mciSendString(L"open .\\death.mp3 alias death_music", NULL, 0, NULL);//bkmusic是自己定义的别名
+	mciSendString(L"play death_music", NULL, 0, NULL);
+
 	COther* but = new COther();
 
 	wchar_t title[50];
@@ -297,7 +319,7 @@ void CAdventure::man_Move()
 {
 	if (ch == 'w' && room[x - 1][y] != WALL)		// 上移处理
 	{
-		playmusic();
+		playmusic(0);
 		room[x - 1][y] = YOU;
 		room[x][y] = ROAD;
 		x--;
@@ -308,7 +330,7 @@ void CAdventure::man_Move()
 	}
 	else if (ch == 's' && room[x + 1][y] != WALL)	// 下移处理
 	{
-		playmusic();
+		playmusic(0);
 		room[x + 1][y] = YOU;
 		room[x][y] = ROAD;
 		x++;
@@ -320,7 +342,7 @@ void CAdventure::man_Move()
 	}
 	else if (ch == 'a' && room[x][y - 1] != WALL)	// 左移处理
 	{
-		playmusic();
+		playmusic(0);
 		room[x][y - 1] = YOU;
 		room[x][y] = ROAD;
 		y--;
@@ -332,14 +354,14 @@ void CAdventure::man_Move()
 	}
 	else if (ch == 'd' && room[x][y + 1] != WALL)	// 右移处理
 	{
-		playmusic();
+		playmusic(0);
 		room[x][y + 1] = YOU;
 		room[x][y] = ROAD;
 		y++;
 		status = 3;
 		ch = '#';
 		
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < 4; i++)
 			monster_Move();
 	}
 	
@@ -353,12 +375,24 @@ void CAdventure::monster_Move(){
 	int dx[4] = { 0, 0, 1, -1 };
 	int dy[4] = { 1, -1, 0, 0 };
 	int dir;
-
-	dir = rand() % 4;
+	if (x == mon_x&&y>mon_y) dir = 0;
+	else if (x == mon_x&&y<mon_y) dir = 1;
+	else if (x>mon_x&&y==mon_y) dir = 2;
+	else if (x < mon_x&&y==mon_y) dir = 3;
+	else{
+		//走有路的方向
+		dir = rand() % 4;
+		while (room[mon_x + dx[dir]][mon_y + dy[dir]] != ROAD){
+			dir++;
+			dir = dir % 4;
+		}
+		
+	}
 	if (room[mon_x + dx[dir]][mon_y + dy[dir]] == ROAD){
 		//room[mon_x][mon_y] = ROAD;
 		//room[mon_x + dx[dir]][mon_y + dy[dir]] == MONSTER;
 		mon_x += dx[dir], mon_y += dy[dir];
+	
 
 
 	}

@@ -15,7 +15,7 @@ void COther::putAll()
 	IMAGE BK;
 	loadimage(&BK, L"begin_background.png");
 	//setbkcolor(RGB(50, 50, 50));
-	putimage(0, 0, 700, 480, &BK, 0, 0);
+	putimage(0, 0, 800, 480, &BK, 0, 0);
 	//cleardevice();
 }
 

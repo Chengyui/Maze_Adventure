@@ -82,7 +82,7 @@ void Ccoin::game()
 				wchar_t* text[10];
 				text[0] = L"你是否要回到主页？\n";
 				but->button(563, 400, L"回到主页");
-				but->button(563, 350, L"　暂停　");
+		
 				if (but->putMessageBox(120, 165, 400, 150, L"回到主页", text, 1, MY_YESNO))	// 回到主页对话框
 				{
 					delete but;
@@ -93,16 +93,7 @@ void Ccoin::game()
 				times = t;
 			}
 
-			if (but->button(563, 350, L"　暂停　"))							// 暂停按钮
-			{
-				long long t = times;
-				wchar_t* text[10];
-				text[0] = L"按“确定”解除暂停\n";
-				but->button(513, 350, L"　暂停　");
-				but->putMessageBox(170, 165, 300, 150, L"暂停", text, 1);	// 暂停对话框
-				start_time = int(time(NULL)) - t;
-				times = t;
-			}
+			
 
 			FlushBatchDraw();
 			Sleep(5);
@@ -195,6 +186,7 @@ void Ccoin::deepFS()
 	}
 	room[2][2] = YOU;
 	room[n - 1][m] = END;	// 将图论 DFS 结果显示到迷宫中
+	coin[2][2] = 0;
 	
 }
 
@@ -257,10 +249,10 @@ void Ccoin::putRoom()
 				putimagePng((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266,  &you);
 				x = i;
 				y = j;
-				if (coin[i][j]){
-					coins++;
-					coin[i][j] = 0;
-				}
+				//if (coin[i][j]){
+				//	coins++;
+				//	coin[i][j] = 0;
+			//	}
 				
 			}
 		}
@@ -285,6 +277,7 @@ void Ccoin::putMan(){
 		loadimage(&you, L"player3.png");
 	putimagePng(216, 216, &you); // 绘制人物
 	if (coin[x][y]){
+		playmusic(1);
 		coins--;
 		coin[x][y] = 0;
 	}

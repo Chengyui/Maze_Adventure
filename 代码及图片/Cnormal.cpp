@@ -89,16 +89,7 @@ void Cnormal::game()
 				times = t;
 			}
 
-			if (but->button(563, 350, L"¡¡ÔÝÍ£¡¡"))							// ÔÝÍ£°´Å¥
-			{
-				long long t = times;
-				wchar_t* text[10];
-				text[0] = L"°´¡°È·¶¨¡±½â³ýÔÝÍ£\n";
-				but->button(513, 350, L"¡¡ÔÝÍ£¡¡");
-				but->putMessageBox(170, 165, 300, 150, L"ÔÝÍ£", text, 1);	// ÔÝÍ£¶Ô»°¿ò
-				start_time = int(time(NULL)) - t;
-				times = t;
-			}
+			
 
 			FlushBatchDraw();
 			tick++;

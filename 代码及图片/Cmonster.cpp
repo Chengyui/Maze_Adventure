@@ -5,7 +5,8 @@ extern char ch;						// 键盘消息
 extern long long times, start_time;	// 计时器
 extern MOUSEMSG m_msg;				// 鼠标消息
 extern long long tick;
-
+int hearts = 3;
+int prex, prey;
 //Cmonster 函数实现
 
 //Cmonster核心
@@ -16,13 +17,14 @@ void Cmonster::game()
 	int mon_flag = 0; //撞到怪物的退出判断
 	while (1)
 	{
+		hearts = 3;
 		clear();									// 清空数据
 
 		deepFS();									// 生成迷宫
 
 		x = 2;
 		y = 2;										// 重置坐标
-
+		prex = x, prey = y;
 		start_time = int(time(NULL));				// 设置初始时间 0 
 		long long  pre_time = start_time;		    //记录时间，添加怪物移动
 		while (1)
@@ -39,7 +41,7 @@ void Cmonster::game()
 
 			man_Move();								// 人物移动处理
 
-			if (x == 14 && y == 15)				// 到达终点判断
+			if (x == n-1 && y == m)				// 到达终点判断
 				break;
 
 			but->putAll();							// 绘制背景
@@ -51,7 +53,7 @@ void Cmonster::game()
 
 		
 
-			putRoom();								// 绘制界面
+			putRoom(hearts);								// 绘制界面
 			putMan();								// 绘制人物
 		
 
@@ -71,10 +73,18 @@ void Cmonster::game()
 				}*/
 				break;
 			}
-	
-			if (mon_x == x&&mon_y == y) {
-				mon_flag = 1;
-				break;
+			
+			if (abs(mon_x-x)<=2&&abs(mon_y-y)<=2) {
+				if (prex != x || prey != y){
+					hearts--;
+					prex = x, prey = y;
+				}
+				
+				if (hearts <= 0){
+					mon_flag = 1;
+					break;
+				}
+				
 			}
 
 			if (but->button(563, 400, L"回到主页"))											// 回到主页按钮
@@ -83,7 +93,6 @@ void Cmonster::game()
 				wchar_t* text[10];
 				text[0] = L"你是否要回到主页？\n";
 				but->button(563, 400, L"回到主页");
-				but->button(563, 350, L"　暂停　");
 				if (but->putMessageBox(120, 165, 400, 150, L"回到主页", text, 1, MY_YESNO))	// 回到主页对话框
 				{
 					delete but;
@@ -94,16 +103,6 @@ void Cmonster::game()
 				times = t;
 			}
 
-			if (but->button(563, 350, L"　暂停　"))							// 暂停按钮
-			{
-				long long t = times;
-				wchar_t* text[10];
-				text[0] = L"按“确定”解除暂停\n";
-				but->button(513, 350, L"　暂停　");
-				but->putMessageBox(170, 165, 300, 150, L"暂停", text, 1);	// 暂停对话框
-				start_time = int(time(NULL)) - t;
-				times = t;
-			}
 
 			FlushBatchDraw();
 			tick++;
@@ -149,6 +148,10 @@ void Cmonster::deepFS()
 		{
 			if (i % 2 == 0 && j % 2 == 0)
 			{
+				if (rand() % 10 == 1){
+					med[i][j] = 1;
+					meds++;
+				}
 				room[i][j] = ROAD;
 				flag[0][++tot] = tot;
 				flag[1][tot] = i;
@@ -190,15 +193,16 @@ void Cmonster::deepFS()
 	room[2][2] = YOU;
 	room[n - 1][m] = END;	// 将图论 DFS 结果显示到迷宫中
 	//room[13][2] = MONSTER;
-
+	med[2][2] = 0;
 }
 
-void Cmonster::putRoom()
+void Cmonster::putRoom(int lives)
 {
-	wchar_t tim[25], pas1[50], pas2[50], coin_text[25];	// 计时、当前关卡和总关卡
+	wchar_t tim[25], pas1[50], pas2[50], coin_text[25],commit[25];	// 计时、当前关卡和总关卡
 
 	//swprintf_s(pas1, L"第 %d 关\0", pass);
 	
+	swprintf_s(commit, L"忍者伤害距离为2"); // 改为倒计时
 	swprintf_s(tim, L"剩余时间 %lld s\0", time_limit - times); // 改为倒计时
 	LOGFONT f;
 	gettextstyle(&f);
@@ -209,19 +213,31 @@ void Cmonster::putRoom()
 	settextcolor(WHITE);
 	//outtextxy(480, 25, pas1);
 	
-	outtextxy(480, 85, tim);				// 输出文字
+	outtextxy(480, 105, tim);				// 输出文字
+	outtextxy(480, 60,commit);				//输出提示
+
+	IMAGE live;
+	loadimage(&live, L"life.png");			//输出生命值
+	lives = lives < 5 ? lives : 5;
+	for (int i = 0; i < lives; i++)
+		putimagePng(480 + 50 * i, 25,&live);
+
+
 	IMAGE img_wall;	//准备图片
 	IMAGE img_road;
 	IMAGE you;
 	IMAGE end;
 	IMAGE road_coin;
 	IMAGE mon;
+	IMAGE road_med;
+
 	loadimage(&road_coin, L"road&coin.png");
 	loadimage(&img_wall, L"wall.png");	//加载图片  L"背景.jpg"是图片的相对路径,也可以使用绝对路径
 	loadimage(&img_road, L"road.png");
 	loadimage(&you, L"player1.png");
 	loadimage(&end, L"endpoint.png");
 	loadimage(&mon, L"mon&road.png");
+	loadimage(&road_med, L"road&med.png");
 
 	for (int i = x - 4; i <= x + 4; i++)	// 绘制迷宫
 	{
@@ -236,8 +252,10 @@ void Cmonster::putRoom()
 			}
 			else if (room[i][j] == ROAD || YOU)
 			{
-				
+				if (med[i][j]==0)
 					putimagePng((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, &img_road);
+				else 
+					putimagePng((j - 1 - y) * 50 + 266, (i - 1 - x) * 50 + 266, &road_med);
 				
 			}
 			else if (room[i][j] == END)
@@ -285,9 +303,15 @@ void Cmonster::putMan(){
 	putimagePng(216, 216, &you); // 绘制人物
 	IMAGE mon;
 	loadimage(&mon, L"mon&road.png");
-	if ((x + 4 >= mon_x&&y - 4 <= mon_y) || (x + 4 >= mon_x&&y + 4 >= mon_y) || (x - 4 <= mon_x&&y + 4 >= mon_y) || (x - 4 <= mon_x&&y - 4 <= mon_y))
-		putimagePng((mon_y - 1 - y) * 50 + 266, (mon_x - 1 - x) * 50 + 266, &mon);
+	//if ((x + 4 >= mon_x&&y - 4 <= mon_y) || (x + 4 >= mon_x&&y + 4 >= mon_y) || (x - 4 <= mon_x&&y + 4 >= mon_y) || (x - 4 <= mon_x&&y - 4 <= mon_y))
+	if (abs(x - mon_x) <= 4 && abs(y-mon_y)<=4)
+	putimagePng((mon_y - 1 - y) * 50 + 266, (mon_x - 1 - x) * 50 + 266, &mon);
 
-
+	if (med[x][y]){
+		playmusic(1);
+		meds--;
+		hearts++;
+		med[x][y] = 0;
+	}
 
 }
