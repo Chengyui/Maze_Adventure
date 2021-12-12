@@ -76,6 +76,7 @@ void Cmonster::game()
 			
 			if (abs(mon_x-x)<=2&&abs(mon_y-y)<=2) {
 				if (prex != x || prey != y){
+					playmusic(2);
 					hearts--;
 					prex = x, prey = y;
 				}

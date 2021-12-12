@@ -23,6 +23,11 @@ void CAdventure::playmusic(int flag){
 		mciSendString(L"open .\\coin.mp3 alias coin_music", NULL, 0, NULL);//bkmusic是自己定义的别名
 		mciSendString(L"play coin_music", NULL, 0, NULL);
 	}
+	else if (flag == 2){
+		mciSendString(L"close  hurt_music ", NULL, 0, NULL);//先关闭之前播放的本音乐
+		mciSendString(L"open .\\hurt.mp3 alias hurt_music", NULL, 0, NULL);//bkmusic是自己定义的别名
+		mciSendString(L"play hurt_music", NULL, 0, NULL);
+	}
 
 }
 void CAdventure::game()
