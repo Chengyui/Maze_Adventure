@@ -33,7 +33,7 @@ void CAdventure::playmusic(int flag){
 void CAdventure::game()
 {
 	CAdventure* Adv;
-	CHelp* help = new CHelp();
+
 	COther* but = new COther();
 
 	setbkmode(TRANSPARENT);
@@ -135,12 +135,12 @@ void CAdventure::game()
 			
 			Adv = new Cmonster();
 			Adv->all_pass = 1;
-			Adv->time_limit = 60;
+			Adv->time_limit = 600;
 			Adv->pass = 1;
 			Adv->n = 25;
 			Adv->m = 25;
-			Adv->mon_x = 13;
-			Adv->mon_y = 2;
+			Adv->mon_x = rand()%25;
+			Adv->mon_y = rand()%25;
 			times = 0;
 			Adv->game();
 			delete Adv;
@@ -193,20 +193,13 @@ bool CAdventure::winPut()
 		settextstyle(30, 0, L"黑体");
 		outtextxy(140 + 3, 90 + 3, title);		// 标题输出
 
-		if (but->button(273, 215, L" 下一关"))	// 下一关按钮
-			break;
-
 		if (but->button(273, 300, L"回到主页"))	// 回到主页按钮
 		{
-			wchar_t* text[10];
-			text[0] = L"你确定你要回到主页吗？\n";
-			but->button(273, 300, L"回到主页");
-			if (but->putMessageBox(120, 165, 400, 150, L"回到主页", text, 1, MY_YESNO))		// 回到主页对话框
-			{
-				delete but;
-				but = NULL;
-				return 1;
-			}
+			
+
+			delete but;
+			but = NULL;
+			return 1;
 		}
 
 		FlushBatchDraw();
@@ -248,20 +241,13 @@ bool CAdventure::failPut(int flag){
 		settextstyle(30, 0, L"黑体");
 		outtextxy(100 + 3, 90 + 3, title);		// 标题输出
 
-		if (but->button(273, 215, L" 下一关"))	// 下一关按钮
-			break;
+		
 
 		if (but->button(273, 300, L"回到主页"))	// 回到主页按钮
 		{
-			wchar_t* text[10];
-			text[0] = L"你确定你要回到主页吗？\n";
-			but->button(273, 300, L"回到主页");
-			if (but->putMessageBox(120, 165, 400, 150, L"回到主页", text, 1, MY_YESNO))		// 回到主页对话框
-			{
-				delete but;
-				but = NULL;
-				return 1;
-			}
+			delete but;
+			but = NULL;
+			return 1;
 		}
 
 		FlushBatchDraw();
@@ -273,51 +259,6 @@ bool CAdventure::failPut(int flag){
 	but = NULL;
 	return 0;
 }
-// 通过全关卡界面
-void CAdventure::gameOver()
-{
-	COther* but = new COther();
-
-	while (1)
-	{
-		if (_kbhit())				// 键盘消息获取
-			ch = _getch();
-
-		while (MouseHit())			// 鼠标消息获取
-			m_msg = GetMouseMsg();	
-
-		but->putAll();				// 绘制背景
-
-		for (int i = 0; i <= 3; i++)
-		{
-			settextcolor(RGB(100, 100, 100));
-			settextstyle(52, 0, L"黑体");
-			outtextxy(200 + i, 90 + i, L"游戏结束");
-		}
-		settextcolor(WHITE);
-		settextstyle(52, 0, L"黑体");
-		outtextxy(200 + 3, 90 + 3, L"游戏结束");	// 标题输出
-
-		if (but->button(273, 215, L"回到主页"))		// 回到主页按钮
-			break;
-
-		if (but->button(273, 300, L"退出游戏"))		// 退出游戏按钮
-		{
-			delete but;
-			but = NULL;
-			EndBatchDraw();
-			closegraph();
-			exit(0);
-		}
-
-		FlushBatchDraw();
-		Sleep(5);
-	}
-
-	delete but;
-	but = NULL;
-}
-
 
 // 人物移动处理
 void CAdventure::man_Move()
@@ -329,9 +270,9 @@ void CAdventure::man_Move()
 		room[x][y] = ROAD;
 		x--;
 		status = 0;
-		ch = '#';									// 赋为其他值，防止人物持续移动
-		for (int i = 0; i < 6;i++)
-		monster_Move();
+		//ch = '#';									// 赋为其他值，防止人物持续移动
+		//for (int i = 0; i < 6;i++)
+		//monster_Move();
 	}
 	else if (ch == 's' && room[x + 1][y] != WALL)	// 下移处理
 	{
@@ -340,10 +281,10 @@ void CAdventure::man_Move()
 		room[x][y] = ROAD;
 		x++;
 		status = 1;
-		ch = '#';
+		//ch = '#';
 	
-		for (int i = 0; i < 6; i++)
-			monster_Move();
+	//	for (int i = 0; i < 6; i++)
+		//	monster_Move();
 	}
 	else if (ch == 'a' && room[x][y - 1] != WALL)	// 左移处理
 	{
@@ -352,10 +293,10 @@ void CAdventure::man_Move()
 		room[x][y] = ROAD;
 		y--;
 		status = 2;
-		ch = '#';
+		//ch = '#';
 		
-		for (int i = 0; i < 6; i++)
-			monster_Move();
+		//for (int i = 0; i < 6; i++)
+		//	monster_Move();
 	}
 	else if (ch == 'd' && room[x][y + 1] != WALL)	// 右移处理
 	{
@@ -364,13 +305,14 @@ void CAdventure::man_Move()
 		room[x][y] = ROAD;
 		y++;
 		status = 3;
-		ch = '#';
+		//ch = '#';
 		
-		for (int i = 0; i < 4; i++)
-			monster_Move();
+		
 	}
-	
-	
+	if (ch != '#')
+	for (int i = 0; i < 4; i++)
+		monster_Move();
+	ch = '#';
 }
 
 //怪物移动处理
@@ -473,7 +415,7 @@ int CAdventure::search(int x, int y)
 	return 0;
 }
 
-// 图论 DFS 搜索生成迷宫核心
+
 int CAdventure::dfs(int step)
 {
 	int e[4];

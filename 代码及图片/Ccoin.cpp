@@ -63,34 +63,15 @@ void Ccoin::game()
 			}*/
 
 			if (times >= time_limit){
-				/*wchar_t * time_out[10];
-				time_out[0] = L"你是否要回到主页？\n";
-				but->button(563, 400, L"回到主页");
-				but->button(563, 350, L"　暂停　");
-				if (but->putMessageBox(120, 165, 400, 150, L"计时结束，游戏失败", time_out, 1, MY_OK))	// 回到主页对话框
-				{
-					delete but;
-					but = NULL;
-					return;
-				}*/
+				
 				break;
 			}
 
 			if (but->button(563, 400, L"回到主页"))											// 回到主页按钮
 			{
-				long long t = times;
-				wchar_t* text[10];
-				text[0] = L"你是否要回到主页？\n";
-				but->button(563, 400, L"回到主页");
-		
-				if (but->putMessageBox(120, 165, 400, 150, L"回到主页", text, 1, MY_YESNO))	// 回到主页对话框
-				{
-					delete but;
-					but = NULL;
-					return;
-				}
-				start_time = int(time(NULL)) - t;
-				times = t;
+				delete but;
+				but = NULL;
+				return;
 			}
 
 			
@@ -103,19 +84,13 @@ void Ccoin::game()
 			break;
 		}
 		if (coins>10){
-			failPut(2);
+			failPut(0);
 			break;
 		}
 	
 
 		if (winPut())				// 通过一关卡界面
 			break;
-
-		if (pass == all_pass)		// 通过全关卡界面
-		{
-			gameOver();
-			break;
-		}
 		pass++;
 		n += 2;
 		m += 2;
@@ -130,7 +105,7 @@ void Ccoin::game()
 	but = NULL;
 }
 
-// 图论 DFS 随机生成迷宫
+
 void Ccoin::deepFS()
 {
 	tot = 0;						// 节点数清空
@@ -172,7 +147,7 @@ void Ccoin::deepFS()
 		}
 	}
 
-	dfs(tot);				// 进行图论 DFS 生成
+	dfs(tot);				
 	
 	for (int i = 1; i <= tot; i++)
 	{

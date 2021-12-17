@@ -38,13 +38,13 @@ public:
 
 	bool winPut();											// 通过一关卡界面
 	bool failPut(int flag=1);
-	void gameOver();										// 通过全关卡界面
+
 	void man_Move();										// 人物移动处理
 	void clear();											// 清空数据处理
 	void monster_Move();
 
 	int search(int x, int y);								// DFS 搜索生成迷宫核心
-	int dfs(int step);										// 图论 DFS 搜索生成迷宫核心
+	int dfs(int step);										
 	int my_line(int x_1, int y_1, int x_2, int y_2);		// 辅助函数
 	void playmusic(int flag);
 };
@@ -121,13 +121,4 @@ private:
 	void putRoom(int flag); //绘制界面
 	void putMan();  //绘制人物
 	
-};
-// 帮助信息类
-class CHelp
-{
-public:
-	CHelp() {}
-	~CHelp() {}
-
-	void put();		// 绘制界面
 };

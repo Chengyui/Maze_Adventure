@@ -55,22 +55,10 @@ void Cmonster::game()
 
 			putRoom(hearts);								// 绘制界面
 			putMan();								// 绘制人物
-		
-
-
-			
+	
 
 			if (times >= time_limit){
-				/*wchar_t * time_out[10];
-				time_out[0] = L"你是否要回到主页？\n";
-				but->button(563, 400, L"回到主页");
-				but->button(563, 350, L"　暂停　");
-				if (but->putMessageBox(120, 165, 400, 150, L"计时结束，游戏失败", time_out, 1, MY_OK))	// 回到主页对话框
-				{
-				delete but;
-				but = NULL;
-				return;
-				}*/
+			
 				break;
 			}
 			
@@ -90,7 +78,7 @@ void Cmonster::game()
 
 			if (but->button(563, 400, L"回到主页"))											// 回到主页按钮
 			{
-				long long t = times;
+				/*long long t = times;
 				wchar_t* text[10];
 				text[0] = L"你是否要回到主页？\n";
 				but->button(563, 400, L"回到主页");
@@ -101,7 +89,10 @@ void Cmonster::game()
 					return;
 				}
 				start_time = int(time(NULL)) - t;
-				times = t;
+				times = t;*/
+				delete but;
+				but = NULL;
+				return;
 			}
 
 
@@ -121,11 +112,7 @@ void Cmonster::game()
 		if (winPut())				// 通过一关卡界面
 			break;
 
-		if (pass == all_pass)		// 通过全关卡界面
-		{
-			gameOver();
-			break;
-		}
+	
 		pass++;
 		n += 2;
 		m += 2;
@@ -149,7 +136,7 @@ void Cmonster::deepFS()
 		{
 			if (i % 2 == 0 && j % 2 == 0)
 			{
-				if (rand() % 10 == 1){
+				if (rand() % 20 == 1){
 					med[i][j] = 1;
 					meds++;
 				}
@@ -179,7 +166,7 @@ void Cmonster::deepFS()
 		}
 	}
 
-	dfs(tot);				// 进行图论 DFS 生成
+	dfs(tot);				
 
 	for (int i = 1; i <= tot; i++)
 	{

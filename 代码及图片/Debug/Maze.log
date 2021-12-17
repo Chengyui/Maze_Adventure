@@ -1,16 +1,8 @@
-﻿生成启动时间为 2021-12-12 15:04:31。
+﻿生成启动时间为 2021-12-17 20:23:48。
      1>项目“F:\桌面文件\研究与开发实践\Maze\代码及图片\Maze.vcxproj”在节点 2 上(Build 个目标)。
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (GameMaze.vcxproj, Maze.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         F:\vs2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _USING_V110_SDK71_ /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Adventure.cpp Cmonster.cpp
-         Cmonster.cpp
-     1>f:\桌面文件\研究与开发实践\maze\代码及图片\cmonster.cpp(39): warning C4996: 'MouseHit': This function is deprecated.
-                 f:\vs2013\vc\include\graphics.h(156) : 参见“MouseHit”的声明
-     1>f:\桌面文件\研究与开发实践\maze\代码及图片\cmonster.cpp(40): warning C4996: 'GetMouseMsg': This function is deprecated. Instead, use this new function: getmessage. See https://docs.easyx.cn/getmessage for details.
-                 f:\vs2013\vc\include\graphics.h(157) : 参见“GetMouseMsg”的声明
-     1>f:\桌面文件\研究与开发实践\maze\代码及图片\cmonster.cpp(202): warning C4101: “pas2”: 未引用的局部变量
-     1>f:\桌面文件\研究与开发实践\maze\代码及图片\cmonster.cpp(202): warning C4101: “pas1”: 未引用的局部变量
-     1>f:\桌面文件\研究与开发实践\maze\代码及图片\cmonster.cpp(202): warning C4101: “coin_text”: 未引用的局部变量
+         F:\vs2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _USING_V110_SDK71_ /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Adventure.cpp
          Adventure.cpp
      1>f:\桌面文件\研究与开发实践\maze\代码及图片\adventure.cpp(57): warning C4996: 'MouseHit': This function is deprecated.
                  f:\vs2013\vc\include\graphics.h(156) : 参见“MouseHit”的声明
@@ -20,21 +12,15 @@
                  f:\vs2013\vc\include\graphics.h(156) : 参见“MouseHit”的声明
      1>f:\桌面文件\研究与开发实践\maze\代码及图片\adventure.cpp(189): warning C4996: 'GetMouseMsg': This function is deprecated. Instead, use this new function: getmessage. See https://docs.easyx.cn/getmessage for details.
                  f:\vs2013\vc\include\graphics.h(157) : 参见“GetMouseMsg”的声明
-     1>f:\桌面文件\研究与开发实践\maze\代码及图片\adventure.cpp(242): warning C4996: 'MouseHit': This function is deprecated.
+     1>f:\桌面文件\研究与开发实践\maze\代码及图片\adventure.cpp(235): warning C4996: 'MouseHit': This function is deprecated.
                  f:\vs2013\vc\include\graphics.h(156) : 参见“MouseHit”的声明
-     1>f:\桌面文件\研究与开发实践\maze\代码及图片\adventure.cpp(243): warning C4996: 'GetMouseMsg': This function is deprecated. Instead, use this new function: getmessage. See https://docs.easyx.cn/getmessage for details.
+     1>f:\桌面文件\研究与开发实践\maze\代码及图片\adventure.cpp(236): warning C4996: 'GetMouseMsg': This function is deprecated. Instead, use this new function: getmessage. See https://docs.easyx.cn/getmessage for details.
                  f:\vs2013\vc\include\graphics.h(157) : 参见“GetMouseMsg”的声明
-     1>f:\桌面文件\研究与开发实践\maze\代码及图片\adventure.cpp(286): warning C4996: 'MouseHit': This function is deprecated.
-                 f:\vs2013\vc\include\graphics.h(156) : 参见“MouseHit”的声明
-     1>f:\桌面文件\研究与开发实践\maze\代码及图片\adventure.cpp(287): warning C4996: 'GetMouseMsg': This function is deprecated. Instead, use this new function: getmessage. See https://docs.easyx.cn/getmessage for details.
-                 f:\vs2013\vc\include\graphics.h(157) : 参见“GetMouseMsg”的声明
-         正在生成代码...
        Link:
          F:\vs2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\桌面文件\研究与开发实践\Maze\代码及图片\Debug\MazeAdventure.exe" /INCREMENTAL /NOLOGO /FORCE kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\桌面文件\研究与开发实践\Maze\代码及图片\Debug\MazeAdventure.pdb" /SUBSYSTEM:CONSOLE,"5.01" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\桌面文件\研究与开发实践\Maze\代码及图片\Debug\MazeAdventure.lib" /MACHINE:X86 Debug\Adventure.obj
          Debug\Ccoin.obj
          Debug\Cextreme.obj
          Debug\Cmonster.obj
-         Debug\Help.obj
          Debug\Cnormal.obj
          Debug\GameMaze.obj
          Debug\Other.obj
@@ -43,7 +29,6 @@
      1>Ccoin.obj : warning LNK4006: "void __cdecl putimagePng(int,int,class IMAGE *)" (?putimagePng@@YAXHHPAVIMAGE@@@Z) 已在 Adventure.obj 中定义；已忽略第二个定义
      1>Cextreme.obj : warning LNK4006: "void __cdecl putimagePng(int,int,class IMAGE *)" (?putimagePng@@YAXHHPAVIMAGE@@@Z) 已在 Adventure.obj 中定义；已忽略第二个定义
      1>Cmonster.obj : warning LNK4006: "void __cdecl putimagePng(int,int,class IMAGE *)" (?putimagePng@@YAXHHPAVIMAGE@@@Z) 已在 Adventure.obj 中定义；已忽略第二个定义
-     1>Help.obj : warning LNK4006: "void __cdecl putimagePng(int,int,class IMAGE *)" (?putimagePng@@YAXHHPAVIMAGE@@@Z) 已在 Adventure.obj 中定义；已忽略第二个定义
      1>Cnormal.obj : warning LNK4006: "void __cdecl putimagePng(int,int,class IMAGE *)" (?putimagePng@@YAXHHPAVIMAGE@@@Z) 已在 Adventure.obj 中定义；已忽略第二个定义
      1>GameMaze.obj : warning LNK4006: "void __cdecl putimagePng(int,int,class IMAGE *)" (?putimagePng@@YAXHHPAVIMAGE@@@Z) 已在 Adventure.obj 中定义；已忽略第二个定义
      1>Other.obj : warning LNK4006: "void __cdecl putimagePng(int,int,class IMAGE *)" (?putimagePng@@YAXHHPAVIMAGE@@@Z) 已在 Adventure.obj 中定义；已忽略第二个定义
@@ -53,4 +38,4 @@
 
 生成成功。
 
-已用时间 00:00:01.99
+已用时间 00:00:01.59
