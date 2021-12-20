@@ -11,7 +11,7 @@ long long tick = 1;              //怪兽测试
 
 // CAdventure 类函数实现
 
-// 冒险模式核心
+
 void CAdventure::playmusic(int flag){
 	if (flag == 0){
 		mciSendString(L"close  pace_music ", NULL, 0, NULL);//先关闭之前播放的本音乐
